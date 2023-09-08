@@ -1,13 +1,14 @@
 import { Request, Response, Router } from "express";
-import { authorizationGuard } from "../middleware/authorizationGuard";
+import { authenticationGuard } from "../middleware/authenticationGuard";
 import User from "../models/User";
 import { JwtPayload } from "jsonwebtoken";
+import { authorizationGuard } from "../middleware/authorizationGuard";
 
 const users = Router();
 
 users.get(
   "/",
-  [authorizationGuard],
+  [authenticationGuard, authorizationGuard],
   async (
     req: Request<{ user: string | JwtPayload }, {}, {}, {}>,
     res: Response
