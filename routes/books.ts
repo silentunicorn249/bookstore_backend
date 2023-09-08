@@ -2,18 +2,23 @@ import { Request, Response, Router } from "express";
 import Book from "../models/Book";
 import { ObjectId } from "mongodb";
 import { validateID } from "../middleware/objectIDValidation";
+import { authenticationGuard } from "../middleware/authenticationGuard";
 
 const books = Router();
 
-books.get("/", async (req: Request<{}, {}, {}, { page: number }>, res) => {
-  const pageNumber = req.query.page || 0;
-  const pageSize = pageNumber ? 3 : 0;
-  const books = await Book.find()
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
-    .populate("author", "name -_id");
-  res.send(books);
-});
+books.get(
+  "/",
+  [authenticationGuard],
+  async (req: Request<{}, {}, {}, { page: number }>, res) => {
+    const pageNumber = req.query.page || 0;
+    const pageSize = pageNumber ? 3 : 0;
+    const books = await Book.find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .populate("author", "name -_id");
+    res.send(books);
+  }
+);
 
 books.get("/:id", [validateID], async (req: Request, res: Response) => {
   const ressult = await Book.find({ _id: req.params.id });
