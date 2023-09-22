@@ -17,9 +17,9 @@ app.use("/auth", auth);
 app.use("/users", users);
 
 mongoose
-  .connect("mongodb://localhost:27017/bookstore")
+  .connect("mongodb+srv://mark:mark@cluster0.2q3nfl2.mongodb.net/")
   .then(() => {
-    app.listen(3000, () => console.log("App listening"));
+    app.listen(3000, "0.0.0.0", () => console.log("App listening"));
   })
   .catch((err) => {
     console.log(err);
