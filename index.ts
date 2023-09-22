@@ -5,8 +5,10 @@ import authors from "./routes/authors";
 import auth from "./routes/auth";
 import users from "./routes/users";
 import user from "./routes/user";
+import { logger } from "./middleware/logger";
 const app = express();
 app.use(json());
+app.use(logger);
 
 app.use("/", user);
 app.use("/books", books);

@@ -14,7 +14,7 @@ user.get(
   ) => {
     const id = req.params.user._id;
 
-    const user = await User.findById(id).select("-hashedPass");
+    const user = await User.findById(id).select("-hashedPass -__v -_id");
 
     res.send(user);
   }
