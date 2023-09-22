@@ -13,7 +13,7 @@ users.get(
     req: Request<{ user: string | JwtPayload }, {}, {}, {}>,
     res: Response
   ) => {
-    const users = await User.find();
+    const users = await User.find().select("-hashedPass -__v -_id");
     res.send(users);
   }
 );
